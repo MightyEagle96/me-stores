@@ -1,0 +1,11 @@
+header.header {
+  height: 75vh;
+  background-image: linear-gradient(
+      to right bottom,
+      rgba(26, 26, 26, 0.315),
+      rgba(48, 48, 5, 0.479)
+    ),
+    url('../../assets/images/large/shopping-1165437_1920.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
