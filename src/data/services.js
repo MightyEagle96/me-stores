@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-export const backendUrl = 'http://192.168.8.137:4000';
+import Swal from 'sweetalert2';
+export const backendUrl = 'http://192.168.8.110:4000';
 
 const AUTH_TOKEN = localStorage.getItem('token') || '';
 
@@ -13,6 +14,22 @@ export const httpService = axios.create({
     Authorization: `Bearer ${AUTH_TOKEN}`,
   },
 });
+
+// .interceptors.response.use((response) => console.log(response.status));
+httpService.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response.status === 401) {
+      Swal.fire({ icon: 'error', titleText: error.response.data.message }).then(
+        () => {
+          localStorage.removeItem('token');
+          localStorage.removeItem('loggedInUser');
+          window.location.assign('/login');
+        }
+      );
+    }
+  }
+);
 
 export const loggedInUser =
   JSON.parse(localStorage.getItem('loggedInUser')) || null;

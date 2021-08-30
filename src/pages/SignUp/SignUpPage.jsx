@@ -7,11 +7,14 @@ import { httpService } from '../../data/services';
 import Swal from 'sweetalert2';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-
 import Select from '@material-ui/core/Select';
+import { IsLoading } from '../../assets/aesthetics/IsLoading';
+import { useHistory } from 'react-router';
 
 export const SignUpPage = () => {
   const [formData, setFormData] = useState({ account_type: 'me-stores' });
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
   const useStyles = makeStyles((theme) => ({
     root: {
       '& > *': {
@@ -34,7 +37,7 @@ export const SignUpPage = () => {
 
   const signUp = (e) => {
     e.preventDefault();
-
+    setLoading(true);
     const path = 'auth/signUp';
     httpService.post(path, formData).then((res) => {
       if (res.data) {
@@ -44,7 +47,9 @@ export const SignUpPage = () => {
           icon: 'success',
           iconColor: 'green',
           text: 'Account created',
-        });
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => history.push('/dashboard'));
       }
     });
   };
@@ -124,10 +129,7 @@ export const SignUpPage = () => {
                 </div>
                 <div className="mt-3 text-center">
                   <button type="submit" className="btn btn-primary">
-                    Create account{' '}
-                    <span>
-                      <i class="fa fa-check" aria-hidden="true"></i>
-                    </span>
+                    {loading ? <IsLoading /> : 'Create Account'}
                   </button>
                 </div>
               </form>

@@ -21,7 +21,9 @@ function App() {
 
       <Route exact path="/signUp" component={SignUpPage}></Route>
       <Route exact path="/dashboard" component={DashboardPage}></Route>
-      <Route exact path="/store-management" component={StoreManagement}></Route>
+      <Route exact path="/store-management">
+        {dataService.loggedInUser() ? <StoreManagement /> : <LoginPage />}
+      </Route>
     </Switch>
   );
 }

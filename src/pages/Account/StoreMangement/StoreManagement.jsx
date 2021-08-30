@@ -25,6 +25,7 @@ export const StoreManagement = () => {
   const createProduct = () => {
     const path = 'stores';
     httpService.post(path, formData).then(() => {
+      getProducts();
       Swal.fire({
         icon: 'success',
         text: 'New product created',
@@ -32,7 +33,19 @@ export const StoreManagement = () => {
       }).then(() => setFormData({}));
     });
   };
-  const columns = [{ title: '' }];
+  const columns = [
+    { title: 'Product', field: 'itemName' },
+    { title: 'Category', field: 'category' },
+    {
+      title: 'Price',
+      field: 'price',
+      render: (rowData) => <span>N{rowData.price.toLocaleString()}</span>,
+    },
+    {
+      title: 'Quantity',
+      field: 'quantity',
+    },
+  ];
   return (
     <div>
       <Navbar></Navbar>
@@ -133,7 +146,11 @@ export const StoreManagement = () => {
                   <i class="fas fa-cart-plus"></i>
                 </span>
               </div>
-              <MyTable columns={products} />
+              <MyTable
+                data={products}
+                title="Goods in Store"
+                columns={columns}
+              />
             </div>
           </div>
         </div>

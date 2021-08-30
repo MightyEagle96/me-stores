@@ -18,7 +18,7 @@ export const LoginPage = () => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
 
-  const login = (e) => {
+  const login = async (e) => {
     e.preventDefault();
     if (!loginData.email || !loginData.password) {
       setError(true);
@@ -28,24 +28,20 @@ export const LoginPage = () => {
     } else {
       setLoading(true);
       const path = 'auth/login';
-      httpService
-        .post(path, loginData)
-        .then((res) => {
-          if (res.data) {
-            localStorage.setItem('token', res.data.accessToken);
-            localStorage.setItem('loggedInUser', JSON.stringify(res.data.user));
-            setLoading(false);
-          }
-        })
-        .then(() =>
-          Swal.fire({
-            icon: 'success',
-            titleText: 'Welcome',
-            text: 'Logged in successfully',
-            showConfirmButton: false,
-            timer: 2000,
-          }).then(() => history.push('/dashboard'))
-        );
+      const res = await httpService.post(path, loginData);
+      setLoading(false);
+      if (res) {
+        localStorage.setItem('token', res.data.accessToken);
+        localStorage.setItem('loggedInUser', JSON.stringify(res.data.user));
+        setLoading(false);
+        Swal.fire({
+          icon: 'success',
+          titleText: 'Welcome',
+          text: 'Logged in successfully',
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => history.push('/dashboard'));
+      }
     }
   };
 
