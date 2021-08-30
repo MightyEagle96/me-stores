@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 import Swal from 'sweetalert2';
-export const backendUrl = 'http://192.168.8.110:4000';
+//export const backendUrl = 'http://192.168.8.110:4000';
+export const backendUrl = 'http://localhost:4000';
 
 const AUTH_TOKEN = localStorage.getItem('token') || '';
 
@@ -15,18 +16,35 @@ export const httpService = axios.create({
   },
 });
 
-// .interceptors.response.use((response) => console.log(response.status));
 httpService.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response.status === 401) {
-      Swal.fire({ icon: 'error', titleText: error.response.data.message }).then(
-        () => {
-          localStorage.removeItem('token');
-          localStorage.removeItem('loggedInUser');
-          window.location.assign('/login');
-        }
-      );
+    const response = error.response;
+    if (response) {
+      if (
+        response.status === 401 &&
+        response.data.message === 'Incorrect Email or Password'
+      ) {
+        Swal.fire({ icon: 'error', text: response.data.message });
+      } else if (
+        response.status === 401 &&
+        (response.data.message === 'invalid token' ||
+          response.data.message === 'invalid algorithm')
+      ) {
+        Swal.fire({ icon: 'warning', text: 'Invalid token detected' }).then(
+          () => {
+            localStorage.removeItem('token');
+            localStorage.removeItem('loggedInUser');
+            window.location.assign('/login');
+          }
+        );
+      } else if (response.status === 403) {
+        Swal.fire({
+          icon: 'warning',
+          titleText: 'Access Denied',
+          text: response.data.message,
+        });
+      }
     }
   }
 );
