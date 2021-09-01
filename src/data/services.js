@@ -27,9 +27,10 @@ httpService.interceptors.response.use(
       ) {
         Swal.fire({ icon: 'error', text: response.data.message });
       } else if (
-        response.status === 401 &&
-        (response.data.message === 'invalid token' ||
-          response.data.message === 'invalid algorithm')
+        (response.status === 401 &&
+          (response.data.message === 'invalid token' ||
+            response.data.message === 'invalid algorithm')) ||
+        response.data.message === 'jwt must be provided'
       ) {
         Swal.fire({ icon: 'warning', text: 'Invalid token detected' }).then(
           () => {

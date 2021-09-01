@@ -13,6 +13,7 @@ export const StoreManagement = () => {
   const [formData, setFormData] = useState({});
   const [update, setUpdate] = useState(false);
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,6 +22,7 @@ export const StoreManagement = () => {
     const path = 'stores';
     const res = await httpService.get(path);
     if (res) {
+      setLoading(false);
       setProducts(res.data.items);
     }
   };
@@ -29,10 +31,13 @@ export const StoreManagement = () => {
     getProducts();
   }, []);
 
-  const createProduct = () => {
+  const createProduct = (e) => {
+    e.preventDefault();
+    setLoading(true);
     const path = 'stores';
     httpService.post(path, formData).then(() => {
       getProducts();
+      setLoading(false);
       Swal.fire({
         icon: 'success',
         text: 'New product created',
@@ -42,9 +47,11 @@ export const StoreManagement = () => {
   };
 
   const updateProduct = async (itemId) => {
+    setLoading(true);
     const path = `stores/${itemId}`;
     const res = await httpService.patch(path, formData);
     if (res) {
+      setLoading(false);
       getProducts();
       Swal.fire({
         icon: 'success',
@@ -77,7 +84,7 @@ export const StoreManagement = () => {
         const res = await httpService.delete(path);
         if (res) {
           getProducts();
-          Swal.fire({ icon: 'Success', text: 'Item Deleted', timer: 2000 });
+          Swal.fire({ icon: 'success', text: 'Item Deleted', timer: 2000 });
         }
       }
     });
@@ -148,7 +155,7 @@ export const StoreManagement = () => {
           <div>
             <div className="jumbotron jumbotron-fluid bg-danger text-light p-3">
               <div className="container">
-                <div className="display-4">STORE MANAGEMENT</div>
+                <div className="display-4">Store Management</div>
                 <hr />
                 <p className="lead"></p>
               </div>
@@ -162,46 +169,48 @@ export const StoreManagement = () => {
                   <i class="fa fa-cart-plus" aria-hidden="true"></i>
                 </span>
               </div>
-              <div className="">
-                <div className="row">
-                  <div className="col-md-6">
-                    <label htmlFor="">Item Name:</label>
-                    <input
-                      type="text"
-                      name="itemName"
-                      className="form-control"
-                      placeholder="Item Name"
-                      value={formData.itemName}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <label htmlFor="">Item Category:</label>
-                    <select
-                      id=""
-                      className="form-select"
-                      name="category"
-                      value={formData.category}
-                      onChange={handleChange}
-                    >
-                      {categories.map((category, index) => {
-                        return (
-                          <option key={index} value={category.key}>
-                            {category.value}
-                          </option>
-                        );
-                      })}
-                    </select>
-                  </div>
-                </div>
-                <div className="row mt-3">
+              <div className="border border-primary p-3">
+                <form onSubmit={createProduct}>
                   <div className="row">
+                    <div className="col-md-6">
+                      <label htmlFor="itemName">Item Name:</label>
+                      <input
+                        type="text"
+                        name="itemName"
+                        id="itemName"
+                        className="form-control"
+                        placeholder="Item Name"
+                        value={formData.itemName}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="col-md-6">
+                      <label htmlFor="category">Item Category:</label>
+                      <select
+                        id="category"
+                        className="form-select"
+                        name="category"
+                        value={formData.category}
+                        onChange={handleChange}
+                      >
+                        {categories.map((category, index) => {
+                          return (
+                            <option key={index} value={category.key}>
+                              {category.value}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="row mt-3">
                     <div className="col-md-4">
-                      <label htmlFor="">Item Quantity</label>
+                      <label htmlFor="quantity">Item Quantity</label>
                       <input
                         type="number"
                         name="quantity"
-                        id=""
+                        id="quantity"
                         className="form-control"
                         value={formData.quantity}
                         onChange={handleChange}
@@ -210,11 +219,11 @@ export const StoreManagement = () => {
                       />
                     </div>
                     <div className="col-md-4">
-                      <label htmlFor="">Item Price</label>
+                      <label htmlFor="price">Item Price</label>
                       <input
                         type="number"
                         name="price"
-                        id=""
+                        id="price"
                         className="form-control"
                         value={formData.price}
                         onChange={handleChange}
@@ -223,11 +232,11 @@ export const StoreManagement = () => {
                       />
                     </div>
                     <div className="col-md-4">
-                      <label htmlFor="">Image Url</label>
+                      <label htmlFor="imageUrl">Image Url</label>
                       <input
                         type="text"
                         name="imageUrl"
-                        id=""
+                        id="imageUrl"
                         className="form-control"
                         value={formData.imageUrl}
                         onChange={handleChange}
@@ -235,12 +244,21 @@ export const StoreManagement = () => {
                       />
                     </div>
                   </div>
-                  <div className="mt-2">
+                  <div className="mt-3">
+                    <div className="col-md-4">
+                      <label htmlFor="description">Description</label>
+                      <textarea
+                        name="description"
+                        id="description"
+                        cols="30"
+                        rows="4"
+                        className="form-control"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div className="mt-3">
                     {!update ? (
-                      <button
-                        className="btn btn-primary"
-                        onClick={createProduct}
-                      >
+                      <button className="btn btn-primary">
                         Create product
                       </button>
                     ) : (
@@ -253,8 +271,11 @@ export const StoreManagement = () => {
                         Update Product
                       </button>
                     )}
+                    <button className="ms-2 btn btn-danger" type="reset">
+                      Reset
+                    </button>
                   </div>
-                </div>
+                </form>
               </div>
             </div>
             <hr />
@@ -265,17 +286,12 @@ export const StoreManagement = () => {
                   <i class="fas fa-cart-plus"></i>
                 </span>
               </div>
-              {products.length ? (
-                <MyTable
-                  data={products}
-                  title="Goods in Store"
-                  columns={columns}
-                />
-              ) : (
-                <div className="text-center">
-                  <IsLoading color={'text-danger'} />{' '}
-                </div>
-              )}
+              <div>{loading ? <IsLoading color="text-danger" /> : ''}</div>
+              <MyTable
+                data={products}
+                title="Goods in Store"
+                columns={columns}
+              />
             </div>
           </div>
         </div>

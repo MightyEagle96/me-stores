@@ -10,6 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { IsLoading } from '../../assets/aesthetics/IsLoading';
 import { useHistory } from 'react-router';
+import { roles } from '../../data/data';
 
 export const SignUpPage = () => {
   const [formData, setFormData] = useState({ account_type: 'me-stores' });
@@ -123,8 +124,11 @@ export const SignUpPage = () => {
                     fullWidth
                     name="role"
                   >
-                    <MenuItem value="user">User</MenuItem>
-                    <MenuItem value="admin">Admin</MenuItem>
+                    {roles.map((role, index) => (
+                      <MenuItem key={index} value={role.key}>
+                        {role.value}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </div>
                 <div className="mt-3 text-center">

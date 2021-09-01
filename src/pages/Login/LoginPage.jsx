@@ -40,7 +40,19 @@ export const LoginPage = () => {
           text: 'Logged in successfully',
           showConfirmButton: false,
           timer: 2000,
-        }).then(() => history.push('/dashboard'));
+        }).then(() => {
+          switch (res.data.user.role) {
+            case 'user':
+              return history.push('/user');
+            case 'admin':
+              return history.push('/dashboard');
+            case 'storeAdmin':
+              return history.push('/dashboard');
+
+            default:
+              break;
+          }
+        });
       }
     }
   };

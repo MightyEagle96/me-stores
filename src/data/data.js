@@ -9,3 +9,10 @@ export const categories = [
   { key: 'entertainment & arts', value: 'Entertainment & Arts' },
   { key: 'automotive', value: 'Automotive' },
 ];
+
+export const roles = [
+  { key: '', value: 'Choose a role' },
+  { key: 'user', value: 'User' },
+  { key: 'storeAdmin', value: 'Store Admin' },
+  { key: 'admin', value: 'Admin' },
+];
