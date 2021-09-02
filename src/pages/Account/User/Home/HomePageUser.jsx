@@ -4,10 +4,96 @@ import { UserSideMenu } from '../UserSideMenu/UserSideMenu';
 import { IsLoading } from '../../../../assets/aesthetics/IsLoading';
 import { httpService } from '../../../../data/services';
 import { CardItem } from '../../../../components/CardItem/CardItem';
+import { dataService } from '../../../../data/services';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import { makeStyles } from '@material-ui/core/styles';
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+  },
+}));
 export const HomePageUser = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [favorites, setFavorites] = useState([]);
+  const [carts, setCarts] = useState([]);
+  const [loadCart, setLoadCart] = useState(false);
+  const [productId, setProductId] = useState('');
+  const [open, setOpen] = useState(false);
+  const [alert, setAlert] = useState({});
+  const classes = useStyles();
+
+  const getFavorites = async () => {
+    const path = `favorite?user=${dataService.loggedInUser()._id}`;
+    const res = await httpService.get(path);
+    if (res) {
+      setFavorites(res.data.favorite);
+    }
+  };
+
+  const getCart = async () => {
+    const path = `cart?user=${dataService.loggedInUser()._id}`;
+    const res = await httpService.get(path);
+    if (res) {
+      setCarts(res.data.cart);
+      setLoadCart(false);
+    }
+  };
+
+  const isFavorite = (product) => {
+    const fav = favorites.find((favorite) => favorite.item === product._id);
+    if (fav) return true;
+    else return false;
+  };
+
+  const addedToCart = (product) => {
+    const cart = carts.find((cart) => {
+      return cart.item._id === product._id;
+    });
+    if (cart) return true;
+    else return false;
+  };
+
+  const addToCart = async (item) => {
+    setProductId(item);
+    setLoadCart(true);
+    const path = 'cart';
+    const body = { item };
+    const res = await httpService.post(path, body);
+    if (res) {
+      getCart();
+      setAlert({ severity: 'success', message: 'Product added to cart' });
+      setOpen(true);
+      setProductId('');
+    }
+  };
+  const removeFromCart = async (item) => {
+    setProductId(item);
+    setLoadCart(true);
+    const path = `cart/${item}`;
+    const res = await httpService.delete(path);
+    if (res) {
+      getCart();
+      setAlert({ severity: 'success', message: 'Product removed from cart' });
+      setOpen(true);
+      setProductId('');
+    }
+  };
+
+  const showLoading = () => {
+    const item = products.find((product) => product._id === productId);
+    if (item) return true;
+    else return false;
+  };
 
   const getProducts = async () => {
     const path = 'stores';
@@ -17,8 +103,17 @@ export const HomePageUser = () => {
       setProducts(res.data.items);
     }
   };
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+
   useEffect(() => {
     getProducts();
+    getFavorites();
+    getCart();
   }, []);
 
   return (
@@ -37,10 +132,27 @@ export const HomePageUser = () => {
                 return (
                   <div key={index}>
                     <CardItem
+                      id={product._id}
+                      loadCart={showLoading()}
                       price={product.price.toLocaleString()}
                       imageUrl={product.imageUrl}
                       itemName={product.itemName}
+                      isFavorite={isFavorite(product)}
+                      addedToCart={addedToCart(product)}
+                      addToCart={addToCart}
+                      removeFromCart={removeFromCart}
                     />
+                    <div className={classes.root}>
+                      <Snackbar
+                        open={open}
+                        autoHideDuration={6000}
+                        onClose={handleClose}
+                      >
+                        <Alert onClose={handleClose} severity={alert.severity}>
+                          {alert.message}
+                        </Alert>
+                      </Snackbar>
+                    </div>
                   </div>
                 );
               })}

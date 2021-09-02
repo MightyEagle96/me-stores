@@ -3,12 +3,11 @@ import React, { useState } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import './LoginPage.css';
 import { httpService } from '../../data/services';
-import { useHistory } from 'react-router';
+
 import Swal from 'sweetalert2';
 import { IsLoading } from '../../assets/aesthetics/IsLoading';
 
 export const LoginPage = () => {
-  const history = useHistory();
   const defaultData = {};
   const [loginData, setLoginData] = useState(defaultData);
   const [loading, setLoading] = useState(false);
@@ -43,17 +42,23 @@ export const LoginPage = () => {
         }).then(() => {
           switch (res.data.user.role) {
             case 'user':
-              return history.push('/user');
+              return window.location.assign('/user');
             case 'admin':
-              return history.push('/dashboard');
+              return window.location.assign('/dashboard');
             case 'storeAdmin':
-              return history.push('/dashboard');
+              return window.location.assign('/dashboard');
 
             default:
               break;
           }
         });
-      }
+      } else
+        Swal.fire({
+          icon: 'error',
+          titleText: 'Network Error',
+          text: 'There seems to be a problem communicating with the server',
+          timer: 2000,
+        });
     }
   };
 
