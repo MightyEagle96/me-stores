@@ -12,6 +12,7 @@ import { DashboardPage } from './pages/Account/DashBoard/DashboardPage';
 import { dataService } from './data/services';
 import { StoreManagement } from './pages/Account/StoreMangement/StoreManagement';
 import { HomePageUser } from './pages/Account/User/Home/HomePageUser';
+import { OrderPage } from './pages/Account/User/Order/OrderPage';
 function App() {
   return (
     <Switch>
@@ -26,6 +27,7 @@ function App() {
       <Route exact path="/store-management">
         {dataService.loggedInUser() ? <StoreManagement /> : <LoginPage />}
       </Route>
+      <Route exact path="/order/:id" component={OrderPage}></Route>
     </Switch>
   );
 }

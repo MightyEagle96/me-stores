@@ -77,7 +77,9 @@ export const CardItem = ({
         )}
 
         <div>
-          <button className="btn btn-success">Order now</button>
+          <a href={`/order/${id}`} className="btn btn-success">
+            Order Now
+          </a>
         </div>
       </div>
     </div>

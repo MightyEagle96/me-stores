@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 import Swal from 'sweetalert2';
-//export const backendUrl = 'http://192.168.8.110:4000';
-export const backendUrl = 'https://mightyeagle-be.herokuapp.com';
+export const backendUrl = 'http://localhost:4000/';
+//export const backendUrl = 'https://mightyeagle-be.herokuapp.com';
 
 const AUTH_TOKEN = localStorage.getItem('token') || '';
 
