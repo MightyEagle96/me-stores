@@ -7,7 +7,7 @@ a.myLink {
 .myLink:hover {
   transform: translateY(4px);
   transition: all 0.2s;
-  background-color: rgb(236, 71, 167);
+  /* background-color: rgb(236, 71, 167); */
   border-radius: 10px;
   color: white;
 }

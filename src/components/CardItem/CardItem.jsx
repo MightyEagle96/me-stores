@@ -12,9 +12,10 @@ export const CardItem = ({
   addToCart,
   removeFromCart,
   loadCart,
+  outOfStock,
 }) => {
   return (
-    <div className="myCard m-3 p-3 shadow-lg rounded">
+    <div className="myCard m-2 p-3 shadow-lg rounded">
       <div
         className="myImage text-center"
         style={
@@ -50,6 +51,13 @@ export const CardItem = ({
           <b>N{price}.00</b>
         </div>
       </div>
+      <div>
+        {outOfStock ? (
+          <span className="badge bg-danger">out of stock</span>
+        ) : (
+          ''
+        )}
+      </div>
       <hr />
 
       <div className="d-flex justify-content-between">
@@ -77,9 +85,16 @@ export const CardItem = ({
         )}
 
         <div>
-          <a href={`/order/${id}`} className="btn btn-success">
-            Order Now
-          </a>
+          {!outOfStock ? (
+            <a href={`/order/${id}`} className="btn btn-success">
+              Order Now
+            </a>
+          ) : (
+            <button className="btn btn-success" disabled>
+              {' '}
+              Order Now
+            </button>
+          )}
         </div>
       </div>
     </div>

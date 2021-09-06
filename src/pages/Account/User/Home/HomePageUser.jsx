@@ -8,6 +8,7 @@ import { dataService } from '../../../../data/services';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
+import Swal from 'sweetalert2';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -96,11 +97,21 @@ export const HomePageUser = () => {
   };
 
   const getProducts = async () => {
+    setLoading(true);
     const path = 'stores';
     const res = await httpService.get(path);
     if (res) {
       setLoading(false);
       setProducts(res.data.items);
+    } else {
+      setLoading(false);
+      Swal.fire({
+        icon: 'error',
+        text: "Can't fetch products at this time",
+        confirmButtonText: 'Refresh',
+      }).then(() => {
+        getProducts();
+      });
     }
   };
   const handleClose = (event, reason) => {
@@ -127,7 +138,7 @@ export const HomePageUser = () => {
           {loading ? (
             <IsLoading color="text-success" />
           ) : (
-            <div className="d-flex flex-wrap">
+            <div className="d-flex justify-content-center flex-wrap">
               {products.map((product, index) => {
                 return (
                   <div key={index}>
@@ -141,6 +152,7 @@ export const HomePageUser = () => {
                       addedToCart={addedToCart(product)}
                       addToCart={addToCart}
                       removeFromCart={removeFromCart}
+                      outOfStock={product.out_of_stock}
                     />
                     <div className={classes.root}>
                       <Snackbar

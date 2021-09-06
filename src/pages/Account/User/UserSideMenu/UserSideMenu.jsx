@@ -5,9 +5,11 @@ export const UserSideMenu = () => {
     <div className="sideMenu">
       <ul>
         <li>
-          <a href="/order/:id">New Order</a>
+          <a href="/user">New Order</a>
         </li>
-        <li>My Orders</li>
+        <li>
+          <a href="/orders">My Orders</a>
+        </li>
       </ul>
     </div>
   );

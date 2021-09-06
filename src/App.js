@@ -13,6 +13,8 @@ import { dataService } from './data/services';
 import { StoreManagement } from './pages/Account/StoreMangement/StoreManagement';
 import { HomePageUser } from './pages/Account/User/Home/HomePageUser';
 import { OrderPage } from './pages/Account/User/Order/OrderPage';
+import { OrdersPage } from './pages/Account/User/Orders/OrdersPage';
+import { SalesReport } from './pages/Account/Admin/Sales-Report/SalesReport';
 function App() {
   return (
     <Switch>
@@ -28,6 +30,8 @@ function App() {
         {dataService.loggedInUser() ? <StoreManagement /> : <LoginPage />}
       </Route>
       <Route exact path="/order/:id" component={OrderPage}></Route>
+      <Route exact path="/orders" component={OrdersPage}></Route>
+      <Route exact path="/sales-report" component={SalesReport}></Route>
     </Switch>
   );
 }

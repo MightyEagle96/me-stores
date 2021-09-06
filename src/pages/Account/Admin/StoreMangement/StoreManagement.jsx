@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-import Navbar from '../../../components/Navbar/Navbar';
-import { categories } from '../../../data/data';
-import { httpService } from '../../../data/services';
+import Navbar from '../../../../components/Navbar/Navbar';
+import { categories } from '../../../../data/data';
+import { httpService } from '../../../../data/services';
 import { SideMenu } from '../SideMenu/SideMenu';
-import { MyTable } from '../../../assets/aesthetics/MyTable';
-import { IsLoading } from '../../../assets/aesthetics/IsLoading';
+import { MyTable } from '../../../../assets/aesthetics/MyTable';
+import { IsLoading } from '../../../../assets/aesthetics/IsLoading';
 import DefaultLogo from '../../../assets/images/small/defaultImg.png';
 import './StoreManagement.css';
 
