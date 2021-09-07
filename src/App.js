@@ -7,10 +7,9 @@ import './App.css';
 import { HomePage } from './pages/Home/HomePage';
 import { LoginPage } from './pages/Login/LoginPage';
 import { SignUpPage } from './pages/SignUp/SignUpPage';
-import { DashboardPage } from './pages/Account/DashBoard/DashboardPage';
-
+import { DashboardPage } from './pages/Account/Admin/DashBoard/DashboardPage';
 import { dataService } from './data/services';
-import { StoreManagement } from './pages/Account/StoreMangement/StoreManagement';
+import { StoreManagement } from './pages/Account/Admin/StoreMangement/StoreManagement';
 import { HomePageUser } from './pages/Account/User/Home/HomePageUser';
 import { OrderPage } from './pages/Account/User/Order/OrderPage';
 import { OrdersPage } from './pages/Account/User/Orders/OrdersPage';

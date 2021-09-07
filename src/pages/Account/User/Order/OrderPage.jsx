@@ -1,18 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
-import { httpService } from '../../../../data/services';
+import { dataService, httpService } from '../../../../data/services';
 import Navbar from '../../../../components/Navbar/Navbar';
 import { UserSideMenu } from '../UserSideMenu/UserSideMenu';
 import './OrderPage.css';
 import { IsLoading } from '../../../../assets/aesthetics/IsLoading';
 import Swal from 'sweetalert2';
+import { PaystackButton } from 'react-paystack';
 
 export const OrderPage = () => {
+  const publicKey = 'pk_test_9fc8977e12f3ba87232afd332f2bcc8e52e665cb';
   const [item, setItem] = useState({});
   const [loading, setLoading] = useState(true);
   let [quantity, setQuantity] = useState(1);
   const { id } = useParams();
 
+  const body = {
+    product: item._id,
+    amount: Number(item.price) * quantity,
+    quantity,
+    publicKey,
+    email: 'mightyeaglecorp@gmail.com',
+    text: 'Pay Now',
+    onSuccess: () =>
+      alert('Thanks for doing business with us! Come back soon!!'),
+    onClose: () => alert("Wait! You need this oil, don't go!!!!"),
+  };
   const getItem = async () => {
     const path = `stores/${id}`;
     const res = await httpService.get(path);
@@ -34,11 +47,6 @@ export const OrderPage = () => {
   };
 
   const makeOrder = async () => {
-    const body = {
-      product: item._id,
-      amount_paid: Number(item.price) * quantity,
-      quantity,
-    };
     const path = 'order';
     const res = await httpService.post(path, body);
     if (res) {
@@ -58,59 +66,56 @@ export const OrderPage = () => {
           {loading ? (
             <IsLoading color="text-success" />
           ) : (
-            <div className="container shadow">
-              <div>
-                <img
-                  src={item.imageUrl}
-                  className="imgOrder"
-                  alt={item.itemName}
-                />
-              </div>
-              <div className="mb-4">
-                <div className="">
-                  <p>Item: {item.itemName}</p>
-                </div>
-                <div className="">
-                  <p>
-                    Price: N{(parseInt(item.price) * quantity).toLocaleString()}
-                    .00
-                  </p>
-                </div>
-                <div className="">
-                  <p>
-                    Description:
-                    {item.description ? (
-                      <span>{item.description}</span>
-                    ) : (
-                      <span>
-                        <em>Not available</em>
-                      </span>
-                    )}
-                  </p>
-                </div>
+            <div className="d-flex justify-content-center">
+              <div className="col-md-4 p-3 shadow">
                 <div>
-                  <p>Quantity:</p>
-                  <button
-                    className="me-2 btn btn-warning"
-                    onClick={decQuantity}
-                  >
-                    -
-                  </button>
-                  {quantity}
-                  <button
-                    className="ms-2 btn btn-warning"
-                    onClick={incQuantity}
-                  >
-                    +
-                  </button>
+                  <img
+                    src={item.imageUrl}
+                    className="img-fluid"
+                    alt={item.itemName}
+                  />
                 </div>
-                <div className="mt-3">
-                  <button
-                    onClick={makeOrder}
-                    className="btn btn-outline-success"
-                  >
-                    Order now
-                  </button>
+                <div className="mb-4">
+                  <div className="">
+                    <p>Item: {item.itemName}</p>
+                  </div>
+                  <div className="">
+                    <p>
+                      Price: N{parseInt(item.price) * quantity}
+                      .00
+                    </p>
+                  </div>
+                  <div className="">
+                    <p>
+                      Description:
+                      {item.description ? (
+                        <span>{item.description}</span>
+                      ) : (
+                        <span>
+                          <em>Not available</em>
+                        </span>
+                      )}
+                    </p>
+                  </div>
+                  <div>
+                    <p>Quantity:</p>
+                    <button
+                      className="me-2 btn btn-warning"
+                      onClick={decQuantity}
+                    >
+                      -
+                    </button>
+                    {quantity}
+                    <button
+                      className="ms-2 btn btn-warning"
+                      onClick={incQuantity}
+                    >
+                      +
+                    </button>
+                  </div>
+                  <div className="mt-3 mb-3">
+                    <PaystackButton className="btn btn-success" {...body} />
+                  </div>
                 </div>
               </div>
             </div>

@@ -6,7 +6,7 @@ import { httpService } from '../../../../data/services';
 import { SideMenu } from '../SideMenu/SideMenu';
 import { MyTable } from '../../../../assets/aesthetics/MyTable';
 import { IsLoading } from '../../../../assets/aesthetics/IsLoading';
-import DefaultLogo from '../../../assets/images/small/defaultImg.png';
+import DefaultLogo from '../../../../assets/images/small/defaultImg.png';
 import './StoreManagement.css';
 
 export const StoreManagement = () => {
@@ -19,6 +19,7 @@ export const StoreManagement = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const getProducts = async () => {
+    setLoading(true);
     const path = 'stores';
     const res = await httpService.get(path);
     if (res) {
@@ -280,11 +281,21 @@ export const StoreManagement = () => {
             </div>
             <hr />
             <div>
-              <div className="text-center h3 text-danger">
-                PRODUCTS{' '}
-                <span>
-                  <i class="fas fa-cart-plus"></i>
-                </span>
+              <div className="d-flex justify-content-between">
+                <div className="h3 text-danger">
+                  PRODUCTS{' '}
+                  <span>
+                    <i class="fas fa-cart-plus"></i>
+                  </span>
+                </div>
+                <div>
+                  <button
+                    onClick={getProducts}
+                    className="btn btn-outline-danger"
+                  >
+                    Refresh
+                  </button>
+                </div>
               </div>
               <div>{loading ? <IsLoading color="text-danger" /> : ''}</div>
               <MyTable
