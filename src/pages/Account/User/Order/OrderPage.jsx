@@ -7,6 +7,7 @@ import './OrderPage.css';
 import { IsLoading } from '../../../../assets/aesthetics/IsLoading';
 import Swal from 'sweetalert2';
 import { PaystackButton } from 'react-paystack';
+import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
 
 export const OrderPage = () => {
   const publicKey = 'pk_test_9fc8977e12f3ba87232afd332f2bcc8e52e665cb';
@@ -15,17 +16,24 @@ export const OrderPage = () => {
   let [quantity, setQuantity] = useState(1);
   const { id } = useParams();
 
-  const body = {
-    product: item._id,
-    amount: Number(item.price) * quantity,
-    quantity,
-    publicKey,
-    email: 'mightyeaglecorp@gmail.com',
-    text: 'Pay Now',
-    onSuccess: () =>
-      alert('Thanks for doing business with us! Come back soon!!'),
-    onClose: () => alert("Wait! You need this oil, don't go!!!!"),
+  const config = {
+    public_key: 'FLWPUBK-0c72f6c3be671205138a8b7ec2ac97d1-X',
+    tx_ref: Date.now(),
+    amount: 100,
+    currency: 'NGN',
+    payment_options: 'card,mobilemoney,ussd',
+    customer: {
+      email: 'user@gmail.com',
+      phonenumber: '07064586146',
+      name: 'joel ugwumadu',
+    },
+    customizations: {
+      title: 'my Payment Title',
+      description: 'Payment for items in cart',
+      logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
+    },
   };
+  const handleFlutterPayment = useFlutterwave(config);
   const getItem = async () => {
     const path = `stores/${id}`;
     const res = await httpService.get(path);
@@ -48,7 +56,7 @@ export const OrderPage = () => {
 
   const makeOrder = async () => {
     const path = 'order';
-    const res = await httpService.post(path, body);
+    const res = await httpService.post(path);
     if (res) {
       Swal.fire({ icon: 'success', text: 'Order completed' }).then(() => {
         window.location.assign('/user');
@@ -81,7 +89,11 @@ export const OrderPage = () => {
                   </div>
                   <div className="">
                     <p>
-                      Price: N{parseInt(item.price) * quantity}
+                      Price: N
+                      {(
+                        (parseInt(item.price) * quantity) /
+                        100
+                      ).toLocaleString()}
                       .00
                     </p>
                   </div>
@@ -114,7 +126,23 @@ export const OrderPage = () => {
                     </button>
                   </div>
                   <div className="mt-3 mb-3">
-                    <PaystackButton className="btn btn-success" {...body} />
+                    <button
+                      className="btn btn-success"
+                      onClick={() => {
+                        handleFlutterPayment({
+                          callback: (response) => {
+                            console.log(response);
+                            closePaymentModal(); // this will close the modal programmatically
+                          },
+                          onClose: () => {},
+                        });
+                      }}
+                    >
+                      Payment for item
+                      <span className="ms-2">
+                        <i class="fas fa-wallet    "></i>
+                      </span>
+                    </button>
                   </div>
                 </div>
               </div>
