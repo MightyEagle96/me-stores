@@ -1,8 +1,10 @@
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/@fortawesome/fontawesome-free/js/brands';
 import '../node_modules/@fortawesome/fontawesome-free/js/solid';
 import '../node_modules/@fortawesome/fontawesome-free/js/fontawesome';
 import { Route, Switch } from 'react-router-dom';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'bootstrap-css-only/css/bootstrap.min.css';
+import 'mdbreact/dist/css/mdb.css';
 import './App.css';
 import { HomePage } from './pages/Home/HomePage';
 import { LoginPage } from './pages/Login/LoginPage';
@@ -14,6 +16,8 @@ import { HomePageUser } from './pages/Account/User/Home/HomePageUser';
 import { OrderPage } from './pages/Account/User/Order/OrderPage';
 import { OrdersPage } from './pages/Account/User/Orders/OrdersPage';
 import { SalesReport } from './pages/Account/Admin/Sales-Report/SalesReport';
+import { ProfilePage } from './pages/Account/Profile/ProfilePage';
+import { AdminLoginPage } from './pages/Account/Admin/Login/AdminLoginPage';
 function App() {
   return (
     <Switch>
@@ -31,6 +35,8 @@ function App() {
       <Route exact path="/order/:id" component={OrderPage}></Route>
       <Route exact path="/orders" component={OrdersPage}></Route>
       <Route exact path="/sales-report" component={SalesReport}></Route>
+      <Route exact path="/me" component={ProfilePage}></Route>
+      <Route exact path="/staff-login" component={AdminLoginPage}></Route>
     </Switch>
   );
 }

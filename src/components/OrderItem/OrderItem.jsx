@@ -12,7 +12,7 @@ export const OrderItem = ({ product }) => {
               alt={product.product.itemName}
             />{' '}
           </div>
-          <div className="ms-3">
+          <div className="ml-3">
             <div className="h6">Product: {product.product.itemName}</div>
             <div className="h6">
               Amount paid: N{product.amount_paid.toLocaleString()}.00

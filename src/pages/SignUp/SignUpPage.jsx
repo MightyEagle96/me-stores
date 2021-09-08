@@ -1,36 +1,20 @@
-import { TextField } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core';
 import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core';
 import Navbar from '../../components/Navbar/Navbar';
+
 import './SignUpPage.css';
 import { httpService } from '../../data/services';
 import Swal from 'sweetalert2';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
+
 import { IsLoading } from '../../assets/aesthetics/IsLoading';
 import { useHistory } from 'react-router';
-import { roles } from '../../data/data';
+
+import { MDBInput } from 'mdbreact';
 
 export const SignUpPage = () => {
   const [formData, setFormData] = useState({ account_type: 'me-stores' });
   const [loading, setLoading] = useState(false);
   const history = useHistory();
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      '& > *': {
-        margin: theme.spacing(1),
-        width: '25ch',
-      },
-    },
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: 120,
-    },
-    selectEmpty: {
-      marginTop: theme.spacing(2),
-    },
-  }));
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -40,100 +24,135 @@ export const SignUpPage = () => {
     e.preventDefault();
     setLoading(true);
     const path = 'auth/signUp';
-    httpService.post(path, formData).then((res) => {
-      if (res.data) {
-        localStorage.setItem('token', res.data.accessToken);
-        localStorage.setItem('loggedInUser', JSON.stringify(res.data.user));
-        Swal.fire({
-          icon: 'success',
-          iconColor: 'green',
-          text: 'Account created',
-          showConfirmButton: false,
-          timer: 2000,
-        }).then(() => history.push('/dashboard'));
-      }
-    });
+    httpService
+      .post(path, formData)
+      .then((res) => {
+        if (res) {
+          setLoading(false);
+          localStorage.setItem('token', res.data.accessToken);
+          localStorage.setItem('loggedInUser', JSON.stringify(res.data.user));
+          Swal.fire({
+            icon: 'success',
+            text: 'Account created',
+            showConfirmButton: false,
+            timer: 2000,
+          }).then(() => window.location.assign('/user'));
+        }
+      })
+      .catch((err) => console.log('Glory '));
   };
 
-  const classes = useStyles();
   return (
     <div>
       <Navbar></Navbar>
-      <section className="signUp p-3">
-        <div className="d-flex m-2 justify-content-center">
-          <div className="shadow-lg">
+      <section className="signUp">
+        <div className="d-flex justify-content-center">
+          <div className="shadow-lg rounded">
             <div className="card p-3">
-              <div className="h3 text-center">Create Your Account</div>
-              <hr />
-              <form onSubmit={signUp} className={classes.root}>
-                <div>
-                  <TextField
-                    variant="filled"
-                    label="First Name"
-                    helperText="Enter your first name"
-                    fullWidth
-                    name="firstName"
-                    value={formData.firstName}
+              <div className="h3 mb-4 mt-4 text-center text-primary">
+                Create new account
+              </div>
+              <hr className="text-primary" />
+              <form className="needs-validation" onSubmit={signUp} noValidate>
+                <div className="grey-text p-5">
+                  <div className="row">
+                    <div className="col-md-6">
+                      <MDBInput
+                        label="Enter your first name"
+                        icon="user"
+                        group
+                        type="text"
+                        validate
+                        error="wrong"
+                        success="right"
+                        name="firstName"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="col-md-6">
+                      <MDBInput
+                        label="Enter your last name"
+                        icon="user"
+                        group
+                        type="text"
+                        validate
+                        error="wrong"
+                        success="right"
+                        name="lastName"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <MDBInput
+                        label="Type your email"
+                        icon="envelope"
+                        group
+                        type="email"
+                        validate
+                        error="wrong"
+                        success="right"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="col-md-6">
+                      <MDBInput
+                        label="Enter your phone number"
+                        icon="phone"
+                        group
+                        type="number"
+                        validate
+                        name="phoneNumber"
+                        value={formData.phoneNumber}
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <MDBInput
+                        label="Type your password"
+                        icon="lock"
+                        group
+                        type="password"
+                        validate
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="col-md-6">
+                      <MDBInput
+                        label="Confirm your password"
+                        icon="key"
+                        group
+                        type="password"
+                        validate
+                        name="confirmPassword"
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
+
+                  <MDBInput
+                    label="Enter your home address"
+                    icon="home"
+                    group
+                    type="textarea"
+                    validate
+                    name="address"
+                    value={formData.address}
                     onChange={handleChange}
                   />
-                </div>
-                <div>
-                  <TextField
-                    variant="filled"
-                    label="Last Name"
-                    helperText="Enter your last name"
-                    fullWidth
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <TextField
-                    variant="filled"
-                    label="Email"
-                    helperText="Enter your email address"
-                    fullWidth
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <TextField
-                    variant="filled"
-                    label="Password"
-                    type="password"
-                    helperText="Enter your password"
-                    fullWidth
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <InputLabel className="mb-2" id="demo-simple-select-label">
-                    Role
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={formData.role}
-                    onChange={handleChange}
-                    fullWidth
-                    name="role"
-                  >
-                    {roles.map((role, index) => (
-                      <MenuItem key={index} value={role.key}>
-                        {role.value}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </div>
-                <div className="mt-3 text-center">
-                  <button type="submit" className="btn btn-primary">
-                    {loading ? <IsLoading /> : 'Create Account'}
+
+                  <button type="submit" className="btn btn-primary btn-block">
+                    {loading ? <IsLoading /> : 'create account'}
                   </button>
                 </div>
               </form>

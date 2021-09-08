@@ -1,3 +1,6 @@
 section.signUp {
   background-color: whitesmoke;
 }
+.signUpForm {
+  min-width: 600px;
+}

@@ -39,7 +39,7 @@ export default function Navbar() {
     );
   };
   return (
-    <MDBNavbar expand="lg" light bgColor="light">
+    <MDBNavbar expand="lg" light bgColor="white">
       <MDBContainer fluid>
         <MDBNavbarBrand href="#" className="text-danger">
           <i className="fa fa-shopping-cart" aria-hidden="true"></i>

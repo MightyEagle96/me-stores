@@ -1,6 +1,8 @@
 import { TextField } from '@material-ui/core';
 import React, { useState } from 'react';
+import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from 'mdbreact';
 import Navbar from '../../components/Navbar/Navbar';
+import Footer from '../../components/Footer/Footer';
 import './LoginPage.css';
 import { httpService } from '../../data/services';
 
@@ -67,11 +69,13 @@ export const LoginPage = () => {
       <Navbar></Navbar>
       <section className="login">
         <div className="d-flex justify-content-center">
-          <div className="shadow-lg rounded loginForm ">
+          <div className="shadow-lg rounded   ">
             <div className="card p-3">
-              <div className="h3 text-center">Login Here</div>
-              <hr />
-              <form onSubmit={login}>
+              <div className="h3 mb-4 mt-4 text-center text-primary">
+                Login Here
+              </div>
+              <hr className="bg-primary" />
+              <form className="needs-validation" onSubmit={login} noValidate>
                 {error ? (
                   <div className="alert alert-danger">
                     Password and Email are required
@@ -79,40 +83,63 @@ export const LoginPage = () => {
                 ) : (
                   ''
                 )}
-                <div>
-                  <TextField
-                    variant="filled"
-                    label="Email/Username"
+                <div className="grey-text">
+                  <MDBInput
+                    label="Type your email"
+                    icon="envelope"
+                    group
                     type="email"
                     name="email"
-                    onChange={handleChange}
                     value={loginData.email}
-                    helperText="Enter your email address or username"
-                    fullWidth
-                  />
-                </div>
-                <div className="mt-3">
-                  <TextField
-                    variant="filled"
-                    label="Password"
-                    type="password"
-                    name="password"
                     onChange={handleChange}
-                    value={loginData.password}
-                    helperText="Enter your password"
-                    fullWidth
+                    validate
+                    error="wrong"
+                    success="right"
+                    size="lg"
                   />
+                  <div className="">
+                    <MDBInput
+                      label="Type your password"
+                      icon="lock"
+                      group
+                      type="password"
+                      name="password"
+                      value={loginData.password}
+                      onChange={handleChange}
+                      validate
+                      size="lg"
+                    />
+                  </div>
                 </div>
-                <div className="mt-3 text-center">
-                  <button className="btn btn-primary" type="submit">
-                    {loading ? <IsLoading /> : 'LOGIN'}
-                  </button>
+                <div class="row mb-4">
+                  <div class="col d-flex justify-content-center">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="form1Example3"
+                        checked
+                      />
+                      <label class="form-check-label" for="form1Example3">
+                        {' '}
+                        Remember me{' '}
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <a href="#!">Forgot password?</a>
+                  </div>
                 </div>
+                <button className="btn btn-primary btn-block" type="submit">
+                  {loading ? <IsLoading /> : 'LOGIN'}
+                </button>
               </form>
             </div>
           </div>
         </div>
       </section>
+      <Footer></Footer>
     </div>
   );
 };
