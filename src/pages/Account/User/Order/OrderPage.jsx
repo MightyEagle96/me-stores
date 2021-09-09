@@ -5,7 +5,6 @@ import Navbar from '../../../../components/Navbar/Navbar';
 import { UserSideMenu } from '../UserSideMenu/UserSideMenu';
 import './OrderPage.css';
 import { IsLoading } from '../../../../assets/aesthetics/IsLoading';
-import Swal from 'sweetalert2';
 
 import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
 
@@ -18,12 +17,13 @@ export const OrderPage = () => {
   const config = {
     public_key: 'FLWPUBK_TEST-99ba7379fc8300445fa7b8d744e631d6-X',
     tx_ref: Date.now(),
-    amount: item.price,
+    amount: item.price * quantity,
     currency: 'NGN',
     payment_options: 'card,mobilemoney,ussd',
+    //redirect_url: 'http://localhost:3000/orders',
     customer: {
       email: dataService.loggedInUser().email,
-      phonenumber: dataService.loggedInUser().phoneNumber,
+      phone_number: dataService.loggedInUser().phoneNumber,
       name: dataService.loggedInUser().fullName,
     },
     customizations: {
@@ -48,21 +48,32 @@ export const OrderPage = () => {
   }, []);
 
   const incQuantity = () => {
-    setQuantity(quantity++);
+    setQuantity(quantity + 1);
   };
   const decQuantity = () => {
-    setQuantity(quantity--);
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
   };
 
-  const makeOrder = async (amount_paid, txRef, status) => {
+  const makeOrder = async (amount, txRef, status, currency, transaction_id) => {
     const path = 'order';
-    const body = { amount_paid, txRef, status, quantity, product: item._id };
-    const res = await httpService.post(path, body);
-    if (res) {
-      Swal.fire({ icon: 'success', text: 'Order completed' }).then(() => {
-        window.location.assign('/user');
-      });
-    } else Swal.fire({ icon: 'error', text: 'Could not complete request ' });
+    const body = {
+      amount,
+      txRef,
+      status,
+      quantity,
+      product: item._id,
+      currency,
+      transaction_id,
+    };
+
+    try {
+      const res = await httpService.post(path, body);
+      if (res) {
+        window.location.assign('/orders');
+      }
+    } catch (error) {}
   };
   return (
     <div>
@@ -91,10 +102,7 @@ export const OrderPage = () => {
                   <div className="">
                     <p>
                       Price: N
-                      {(
-                        (parseInt(item.price) * quantity) /
-                        100
-                      ).toLocaleString()}
+                      {(parseInt(item.price) * quantity).toLocaleString()}
                       .00
                     </p>
                   </div>
@@ -136,7 +144,9 @@ export const OrderPage = () => {
                               await makeOrder(
                                 response.amount,
                                 response.tx_ref,
-                                response.status
+                                response.status,
+                                response.currency,
+                                response.transaction_id
                               );
                             }
                             closePaymentModal(); // this will close the modal programmatically

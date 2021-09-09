@@ -54,13 +54,14 @@ export const LoginPage = () => {
               break;
           }
         });
-      } else
-        Swal.fire({
-          icon: 'error',
-          titleText: 'Network Error',
-          text: 'There seems to be a problem communicating with the server',
-          timer: 2000,
-        });
+      } else {
+        // Swal.fire({
+        //   icon: 'error',
+        //   titleText: 'Network Error',
+        //   text: 'There seems to be a problem communicating with the server',
+        //   timer: 2000,
+        // });
+      }
     }
   };
 
@@ -95,7 +96,6 @@ export const LoginPage = () => {
                     validate
                     error="wrong"
                     success="right"
-                    size="lg"
                   />
                   <div className="">
                     <MDBInput
@@ -107,7 +107,6 @@ export const LoginPage = () => {
                       value={loginData.password}
                       onChange={handleChange}
                       validate
-                      size="lg"
                     />
                   </div>
                 </div>

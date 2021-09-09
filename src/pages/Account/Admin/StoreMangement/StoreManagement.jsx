@@ -250,6 +250,8 @@ export const StoreManagement = () => {
                       <label htmlFor="description">Description</label>
                       <textarea
                         name="description"
+                        value={formData.description}
+                        onChange={handleChange}
                         id="description"
                         cols="30"
                         rows="4"

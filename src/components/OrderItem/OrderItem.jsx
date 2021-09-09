@@ -13,13 +13,21 @@ export const OrderItem = ({ product }) => {
             />{' '}
           </div>
           <div className="ml-3">
-            <div className="h6">Product: {product.product.itemName}</div>
-            <div className="h6">
-              Amount paid: N{product.amount_paid.toLocaleString()}.00
+            <div>
+              Product: <span className="h6">{product.product.itemName}</span>
             </div>
-            <div className="h6">Quantity: {product.quantity}</div>
-            <div className="h6">
-              Date Ordered: {new Date(product.date_ordered).toDateString()}
+            <div>
+              Amount paid:{' '}
+              <span className="h6">N{product.amount.toLocaleString()}.00</span>
+            </div>
+            <div>
+              Quantity: <span className="h6">{product.quantity}</span>
+            </div>
+            <div>
+              Date Ordered:{' '}
+              <span className="h6">
+                {new Date(product.date_ordered).toDateString()}
+              </span>
             </div>
           </div>
         </div>
