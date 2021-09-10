@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../../../../components/Navbar/Navbar';
+import Footer from '../../../../components/Footer/Footer';
 import { httpService } from '../../../../data/services';
 import { SideMenu } from '../SideMenu/SideMenu';
 import { IsLoading } from '../../../../assets/aesthetics/IsLoading';
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
+import HttpErrorComponent from '../../../../assets/aesthetics/HttpError';
 
 export const SalesReport = () => {
   const [total, setTotal] = useState(0);
@@ -27,7 +29,6 @@ export const SalesReport = () => {
     getTotal();
   }, []);
   const statusColor = (order) => {
-    console.log(order);
     switch (order) {
       case 'awaiting fulfillment':
         return <span className="badge bg-danger">{order}</span>;
@@ -41,6 +42,7 @@ export const SalesReport = () => {
         break;
     }
   };
+
   return (
     <div>
       <Navbar></Navbar>
@@ -65,16 +67,7 @@ export const SalesReport = () => {
           </div>
 
           <div>{loading ? <IsLoading color="text-success" /> : ''}</div>
-          <div>
-            {error ? (
-              <div className="col-md-4 alert alert-danger">
-                Can't fetch data at this time. Please refresh the page or check
-                your internet connectivity
-              </div>
-            ) : (
-              ''
-            )}
-          </div>
+          <div>{error ? <HttpErrorComponent /> : ''}</div>
           <div>
             <div>
               <MDBTable hover>
@@ -92,13 +85,12 @@ export const SalesReport = () => {
                 <MDBTableBody>
                   {orders.map((order, index) => {
                     return (
-                      <tr
-                        onClick={() => {
-                          console.log('hello');
-                        }}
-                        key={index}
-                      >
-                        <td>{order.product.itemName}</td>
+                      <tr key={index}>
+                        <td>
+                          <a href={`/viewOrder/${order._id}`}>
+                            {order.product.itemName}
+                          </a>
+                        </td>
                         <td>N{order.amount.toLocaleString()}.00</td>
                         <td>N{order.product.price.toLocaleString()}.00</td>
                         <td>{order.quantity}</td>
@@ -124,6 +116,7 @@ export const SalesReport = () => {
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   );
 };

@@ -34,6 +34,16 @@ export const SideMenu = () => {
         </a>
         <hr />
       </div>
+      <div className="m-3">
+        <a className="myLink" href="#!">
+          Analytics{' '}
+          <span className="ms-2">
+            {' '}
+            <i class="fas fa-chart-area    "></i>
+          </span>
+        </a>
+        <hr />
+      </div>
     </div>
   );
 };
