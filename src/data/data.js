@@ -16,3 +16,11 @@ export const roles = [
   { key: 'storeAdmin', value: 'Store Admin' },
   { key: 'admin', value: 'Admin' },
 ];
+
+export const agentRoles = [
+  { key: '', value: 'Choose a role' },
+  { key: 'cashier', value: 'Cashier' },
+  { key: 'delivery', value: 'Delivery' },
+  { key: 'retailer', value: 'Retailer' },
+  { key: 'storeAdmin', value: 'Store Admin' },
+];

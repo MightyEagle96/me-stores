@@ -19,6 +19,7 @@ import { SalesReport } from './pages/Account/Admin/Sales-Report/SalesReport';
 import { ProfilePage } from './pages/Account/Profile/ProfilePage';
 import { AdminLoginPage } from './pages/Account/Admin/Login/AdminLoginPage';
 import { ViewItemPage } from './pages/Account/Admin/ViewItem/ViewItemPage';
+import AgentsListPage from './pages/Account/Admin/Agents/AgentsListPage';
 function App() {
   return (
     <Switch>
@@ -39,6 +40,7 @@ function App() {
       <Route exact path="/me" component={ProfilePage}></Route>
       <Route exact path="/staff-login" component={AdminLoginPage}></Route>
       <Route exact path="/viewOrder/:id" component={ViewItemPage}></Route>
+      <Route exact path="/agents" component={AgentsListPage}></Route>
     </Switch>
   );
 }

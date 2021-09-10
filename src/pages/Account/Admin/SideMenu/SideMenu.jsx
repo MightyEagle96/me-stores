@@ -29,7 +29,7 @@ export const SideMenu = () => {
           Sales Report{' '}
           <span className="ms-2">
             {' '}
-            <i class="fas fa-marker    "></i>
+            <i class="fas fa-marker"></i>
           </span>
         </a>
         <hr />
@@ -39,7 +39,16 @@ export const SideMenu = () => {
           Analytics{' '}
           <span className="ms-2">
             {' '}
-            <i class="fas fa-chart-area    "></i>
+            <i class="fas fa-chart-area"></i>
+          </span>
+        </a>
+        <hr />
+      </div>
+      <div className="m-3">
+        <a className="myLink" href="/agents">
+          Agents{' '}
+          <span className="ms-2">
+            <i class="fa fa-users"></i>
           </span>
         </a>
         <hr />

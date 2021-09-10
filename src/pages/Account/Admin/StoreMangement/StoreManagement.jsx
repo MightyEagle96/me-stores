@@ -8,6 +8,7 @@ import { MyTable } from '../../../../assets/aesthetics/MyTable';
 import { IsLoading } from '../../../../assets/aesthetics/IsLoading';
 import DefaultLogo from '../../../../assets/images/small/defaultImg.png';
 import './StoreManagement.css';
+import Footer from '../../../../components/Footer/Footer';
 
 export const StoreManagement = () => {
   const [formData, setFormData] = useState({});
@@ -309,6 +310,7 @@ export const StoreManagement = () => {
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   );
 };
