@@ -69,34 +69,36 @@ export default function AgentsListPage() {
           <SideMenu />
         </div>
         <div className="col-md-9">
-          <div className="p-2">
-            <div className="d-flex justify-content-between">
-              <div className="h3 text-primary">Agents List</div>
-              <button onClick={toggleModal} className="btn btn-primary">
-                New Agent <i class="fa fa-user" aria-hidden="true"></i>
-              </button>
+          <div className="p-3">
+            <div className="">
+              <div className="d-flex justify-content-between">
+                <div className="h3 text-primary">Agents List</div>
+                <button onClick={toggleModal} className="btn btn-primary">
+                  New Agent <i class="fa fa-user" aria-hidden="true"></i>
+                </button>
+              </div>
+              <hr color="red" />
             </div>
-            <hr color="red" />
-          </div>
-          <div>
-            <MDBTable hover>
-              <MDBTableHead color="danger-color" textWhite>
-                <tr>
-                  <th>Agent</th>
-                  <th>Role</th>
-                </tr>
-              </MDBTableHead>
-              <MDBTableBody>
-                {agents.map((agent, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>{agent.fullName}</td>
-                      <td>{agent.role}</td>
-                    </tr>
-                  );
-                })}
-              </MDBTableBody>
-            </MDBTable>
+            <div>
+              <MDBTable hover>
+                <MDBTableHead color="danger-color" textWhite>
+                  <tr>
+                    <th>Agent</th>
+                    <th>Role</th>
+                  </tr>
+                </MDBTableHead>
+                <MDBTableBody>
+                  {agents.map((agent, index) => {
+                    return (
+                      <tr key={index}>
+                        <td>{agent.fullName}</td>
+                        <td>{agent.role}</td>
+                      </tr>
+                    );
+                  })}
+                </MDBTableBody>
+              </MDBTable>
+            </div>
           </div>
         </div>
         <MDBModal isOpen={open} centered>
