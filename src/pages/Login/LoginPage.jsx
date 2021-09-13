@@ -1,6 +1,5 @@
-import { TextField } from '@material-ui/core';
 import React, { useState } from 'react';
-import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from 'mdbreact';
+import { MDBInput } from 'mdbreact';
 import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
 import './LoginPage.css';
@@ -55,12 +54,6 @@ export const LoginPage = () => {
           }
         });
       } else {
-        // Swal.fire({
-        //   icon: 'error',
-        //   titleText: 'Network Error',
-        //   text: 'There seems to be a problem communicating with the server',
-        //   timer: 2000,
-        // });
       }
     }
   };

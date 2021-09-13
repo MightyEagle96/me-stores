@@ -93,7 +93,18 @@ export const StoreManagement = () => {
   };
   const columns = [
     { title: 'Product', field: 'itemName' },
-    { title: 'Category', field: 'category' },
+    {
+      title: 'Category',
+      field: 'category',
+      render: (rowData) => (
+        <span>
+          {
+            categories.find((category) => category.key === rowData.category)
+              .value
+          }
+        </span>
+      ),
+    },
     {
       title: 'Price',
       field: 'price',
@@ -190,7 +201,7 @@ export const StoreManagement = () => {
                       <label htmlFor="category">Item Category:</label>
                       <select
                         id="category"
-                        className="form-select"
+                        className="form-control"
                         name="category"
                         value={formData.category}
                         onChange={handleChange}

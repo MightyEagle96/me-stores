@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core';
+
 import Navbar from '../../components/Navbar/Navbar';
 
 import './SignUpPage.css';
@@ -7,14 +7,12 @@ import { httpService } from '../../data/services';
 import Swal from 'sweetalert2';
 
 import { IsLoading } from '../../assets/aesthetics/IsLoading';
-import { useHistory } from 'react-router';
 
 import { MDBInput } from 'mdbreact';
 
 export const SignUpPage = () => {
   const [formData, setFormData] = useState({ account_type: 'me-stores' });
   const [loading, setLoading] = useState(false);
-  const history = useHistory();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

@@ -9,6 +9,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 import Swal from 'sweetalert2';
+import Footer from '../../../../components/Footer/Footer';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -153,6 +154,7 @@ export const HomePageUser = () => {
                       addToCart={addToCart}
                       removeFromCart={removeFromCart}
                       outOfStock={product.out_of_stock}
+                      // loadCart={loadCart}
                     />
                     <div className={classes.root}>
                       <Snackbar
@@ -172,6 +174,7 @@ export const HomePageUser = () => {
           )}
         </div>
       </div>
+      <Footer></Footer>
     </div>
   );
 };

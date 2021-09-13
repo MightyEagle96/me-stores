@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { IsLoading } from '../../../../assets/aesthetics/IsLoading';
+import Footer from '../../../../components/Footer/Footer';
 import Navbar from '../../../../components/Navbar/Navbar';
 import { OrderItem } from '../../../../components/OrderItem/OrderItem';
 import { dataService, httpService } from '../../../../data/services';
@@ -90,6 +91,7 @@ export const OrdersPage = () => {
           <hr />
         </div>
       </div>
+      <Footer></Footer>
     </div>
   );
 };

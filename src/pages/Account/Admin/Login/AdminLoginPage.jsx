@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from 'mdbreact';
+import React from 'react';
+import { MDBInput } from 'mdbreact';
 import './AdminLoginPage.css';
 import Navbar from '../../../../components/Navbar/Navbar';
 

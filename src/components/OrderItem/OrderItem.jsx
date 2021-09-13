@@ -1,6 +1,21 @@
 import React from 'react';
 import './OrderItem.css';
+
 export const OrderItem = ({ product }) => {
+  const statusColor = (order) => {
+    switch (order) {
+      case 'awaiting fulfillment':
+        return <span className="badge bg-danger">{order}</span>;
+      case 'shipped':
+        return <span className="badge bg-warning">{order}</span>;
+      case 'fulfilled':
+        return <span className="badge bg-success">{order}</span>;
+
+      default:
+        <span> jj</span>;
+        break;
+    }
+  };
   return (
     <div>
       <div className="mt-3  p-3 shadow-lg rounded">
@@ -28,6 +43,9 @@ export const OrderItem = ({ product }) => {
               <span className="h6">
                 {new Date(product.date_ordered).toDateString()}
               </span>
+            </div>
+            <div>
+              Deivery Status: <span>{statusColor(product.deliveryStatus)}</span>
             </div>
           </div>
         </div>

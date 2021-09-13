@@ -92,7 +92,13 @@ export default function AgentsListPage() {
                     return (
                       <tr key={index}>
                         <td>{agent.fullName}</td>
-                        <td>{agent.role}</td>
+                        <td>
+                          {
+                            agentRoles.find(
+                              (agentRole) => agentRole.key === agent.role
+                            ).value
+                          }
+                        </td>
                       </tr>
                     );
                   })}

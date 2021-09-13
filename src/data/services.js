@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 import Swal from 'sweetalert2';
-export const backendUrl = 'http://localhost:4000/';
-//export const backendUrl = 'https://mightyeagle-be.herokuapp.com';
+//export const backendUrl = 'http://localhost:4000/';
+export const backendUrl = 'https://mightyeagle-be.herokuapp.com';
 
 const AUTH_TOKEN = localStorage.getItem('token') || '';
 
@@ -33,13 +33,14 @@ httpService.interceptors.response.use(
           response.data.message === 'jwt must be provided' ||
           response.data.message === 'jwt expired')
       ) {
-        Swal.fire({ icon: 'warning', text: 'Invalid token detected' }).then(
-          () => {
-            localStorage.removeItem('token');
-            localStorage.removeItem('loggedInUser');
-            window.location.assign('/login');
-          }
-        );
+        Swal.fire({
+          icon: 'warning',
+          text: 'Unavailable to validate token.',
+        }).then(() => {
+          localStorage.removeItem('token');
+          localStorage.removeItem('loggedInUser');
+          window.location.assign('/login');
+        });
       } else if (response.status === 403) {
         Swal.fire({
           icon: 'warning',
