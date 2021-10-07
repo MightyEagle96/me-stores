@@ -87,7 +87,7 @@ export const OrderPage = () => {
             <IsLoading color="text-success" />
           ) : (
             <div className="d-flex justify-content-center">
-              <div className="col-md-4 p-3 shadow">
+              <div className=" p-3 shadow">
                 <div>
                   <img
                     src={item.imageUrl}

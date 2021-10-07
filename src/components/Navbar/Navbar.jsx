@@ -62,7 +62,7 @@ export default function Navbar() {
                   Home
                 </MDBNavbarLink>
               ) : (
-                <MDBNavbarLink active aria-current="page" href="#">
+                <MDBNavbarLink active aria-current="page" href="/dashboard">
                   Home
                 </MDBNavbarLink>
               )}
@@ -71,24 +71,7 @@ export default function Navbar() {
               <MDBNavbarLink href="#">Link</MDBNavbarLink>
             </MDBNavbarItem>
 
-            <MDBNavbarItem>
-              <MDBDropdown>
-                <MDBDropdownToggle tag="a" className="nav-link">
-                  Dropdown
-                </MDBDropdownToggle>
-                <MDBDropdownMenu>
-                  <MDBDropdownItem>
-                    <MDBDropdownLink>Action</MDBDropdownLink>
-                  </MDBDropdownItem>
-                  <MDBDropdownItem>
-                    <MDBDropdownLink>Another action</MDBDropdownLink>
-                  </MDBDropdownItem>
-                  <MDBDropdownItem>
-                    <MDBDropdownLink>Something else here</MDBDropdownLink>
-                  </MDBDropdownItem>
-                </MDBDropdownMenu>
-              </MDBDropdown>
-            </MDBNavbarItem>
+            <MDBNavbarItem></MDBNavbarItem>
 
             <MDBNavbarItem>
               <MDBNavbarLink
@@ -105,7 +88,30 @@ export default function Navbar() {
           {user ? (
             <div className="d-flex w-auto ms-auto">
               <MDBNavbarNav>
-                <MDBNavbarLink href="#">{user.lastName}</MDBNavbarLink>
+                {/* <MDBNavbarLink href="#">{user.lastName}</MDBNavbarLink> */}
+                <MDBDropdown>
+                  <MDBDropdownToggle tag="a" className="nav-link">
+                    {user.lastName}
+                  </MDBDropdownToggle>
+                  <MDBDropdownMenu>
+                    {user.role !== 'user' ? (
+                      <MDBDropdownItem>
+                        <MDBDropdownLink href="/dashboard">
+                          {' '}
+                          Dashboard
+                        </MDBDropdownLink>
+                      </MDBDropdownItem>
+                    ) : (
+                      ''
+                    )}
+                    <MDBDropdownItem>
+                      <MDBDropdownLink>Another action</MDBDropdownLink>
+                    </MDBDropdownItem>
+                    <MDBDropdownItem>
+                      <MDBDropdownLink>Something else here</MDBDropdownLink>
+                    </MDBDropdownItem>
+                  </MDBDropdownMenu>
+                </MDBDropdown>
                 <MDBNavbarLink style={{ cursor: 'pointer' }} onClick={logout}>
                   Logout
                 </MDBNavbarLink>
